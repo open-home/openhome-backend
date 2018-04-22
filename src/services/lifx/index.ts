@@ -7,7 +7,7 @@ const client = new lifxClient();
 const cors = require('cors');
 const app = express();
 const socket = require('socket.io')(3000);
-const isTest = true;
+const isTest = false;
 let dataset = [];
 
 client.init();
