@@ -4,7 +4,7 @@ const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   entry: {
-    lifxService: './src/services/lifx/index.ts',
+    openhome: './src/index.ts'
   },
   output: {
     filename: './dist/[name]-service.js',

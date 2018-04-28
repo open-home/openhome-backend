@@ -1,4 +1,4 @@
-export interface ILightPayload {
+export interface ILifxLightPayload {
 
   id: string;
   address: string;
