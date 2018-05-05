@@ -12,3 +12,6 @@ Run `docker build -t image-name .` to build an image
 Then you can get your container running:
 
 `docker run -d -p 8080:8080 -p 3000:3000 -p 3001:3001 --name container-name image-name`
+
+# Docker-compose deployment
+Run `docker-compose up -d` to start the full cluster of `openhome-backend` and `openhome-panel` 

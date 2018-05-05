@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: oh-backend
+    ports:
+      - "8080:8080"
+      - "3000:3000"
+      - "3001:3001"
+      - "3002:3002"
+    networks:
+      oh-net:
+        ipv4_address: 172.20.10.10
+        aliases:
+          - oh-backend
+
+  panel:
+    build:
+      context: ../openhome-panel
+      dockerfile: ../openhome-panel/Dockerfile
+    container_name: oh-panel
+    ports:
+      - "80:80"
+    networks:
+      oh-net:
+        ipv4_address: 172.20.10.15
+        aliases:
+          - oh-panel
+
+networks:
+  oh-net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.20.10.0/24
