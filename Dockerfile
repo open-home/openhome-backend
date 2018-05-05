@@ -16,7 +16,7 @@ RUN npm run build
 WORKDIR /usr/src/openhome-backend/dist
 
 # Exposing ports.
-EXPOSE 8080 3000 3001
+EXPOSE 8080 3000 3001 3002
 
 # Setting entrypoint container CMD.
 CMD [ "node", "openhome-service.js"]
