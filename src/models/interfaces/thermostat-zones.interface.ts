@@ -4,4 +4,6 @@ export interface IThermostatZones {
   threshold: number;
   name: string;
   endpoint: string;
+  guid: string;
+  temperature: number;
 }

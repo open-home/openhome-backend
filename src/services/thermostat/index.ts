@@ -3,25 +3,37 @@ import { IThermostatZones } from "../../models/interfaces/thermostat-zones.inter
 import { getConfig } from "../../utils/utils";
 import { IActionPerformer } from "../../managers/action-performer.interface";
 import { IThermostatZoneThresholdPayload } from "../../models/interfaces/payload/thermostat-zone-threshold-payload.interface";
+import { OpenhomeCloud } from "../openhome-cloud";
 
 export class ThermostatService implements IService {
 
-  private zones: IThermostatZones[];
+  private socket = require('socket.io')(3002);
+  private dataset;
+  private zones: any;
 
   constructor() { }
 
-  public run() {
-    this.zones = getConfig().temperature.zones;
+  public async run() {
 
-    for (let zone of this.zones) {
+    const openhomeCloud = new OpenhomeCloud();
 
-      const currentZoneTemp: number = this.getZoneTemperature(zone);
-      this.actualizeZone(zone, this.checkZoneTemperature(zone, currentZoneTemp));
+    this.zones = await openhomeCloud.getThermostats();
+    this.dataset = this.zones;
+
+    this.socket.emit('message', this.dataset);
+    this.socket.on('connect', (connected) => {
+      connected.emit('message', this.dataset);
+    });
+
+    for (let zone in this.zones) {
+
+      const currentZoneTemp: number = this.getZoneTemperature(this.zones[zone]);
+      this.actualizeZone(this.zones[zone], this.checkZoneTemperature(this.zones[zone], currentZoneTemp));
     }
   }
 
   private getZoneTemperature(zone: IThermostatZones): number {
-    return 0;
+    return zone.temperature;
   }
 
   private checkZoneTemperature(zone: IThermostatZones, currentZoneTemp: number): boolean {

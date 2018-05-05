@@ -3,7 +3,8 @@ export const Commons = {
   openhomeCloud: {
     service: 'https://us-central1-home-cloud-services.cloudfunctions.net',
     endpoints: {
-      config: '/config'
+      config: '/config',
+      thermostat: '/thermostat'
     }
   },
   strings: {

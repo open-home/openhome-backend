@@ -22,7 +22,9 @@ async function init() {
   // Services.
   setInterval(lifxLightService.run.bind(lifxLightService), 2000);
   setInterval(dvrService.run.bind(dvrService),2000);
-  setInterval(thermostatService.run.bind(thermostatService), 2000);
+
+  thermostatService.run();
+  setInterval(thermostatService.run.bind(thermostatService), 120000);
 }
 
 init();
