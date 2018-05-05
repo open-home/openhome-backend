@@ -1,34 +1,14 @@
+import { IDvr } from "./dvr.interface";
+import { ILights } from "./lights.interface";
+import { ILocation } from "./location.interface";
+import { IOpenhome } from "./openhome.interface";
+import { ITemperature } from "./temperature.interface";
+
 export interface IConfig {
 
-  dvr: {
-    address: string;
-    endpoints: {
-      jpeg: {
-        params: string;
-        uri: string;
-      };
-    };
-    password: string;
-    port: number;
-    username: string
-  };
-  lights: {
-    model: string;
-  };
-  location: {
-    city: string;
-    garbageDisposal: {
-      company: string;
-    };
-    geo: {
-      lat: number;
-      lon: number;
-    };
-    nation: string;
-    province: string;
-    zip: string;
-  };
-  openhome: {
-    serverAddress: string;
-  };
+  dvr: IDvr;
+  lights: ILights;
+  location: ILocation;
+  openhome: IOpenhome;
+  temperature: ITemperature;
 }

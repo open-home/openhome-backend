@@ -5,6 +5,7 @@ import { RequestPayload } from "../../../models/interfaces/payload/request-paylo
 import { IActionPerformer } from "../../../managers/action-performer.interface";
 import { LifxLightColor, LifxLightPower } from "../../lifx";
 import { Actions } from "../../../actions/actions";
+import { ThermostatZoneThreshold } from "../../thermostat";
 
 let httpListenerRouter = express.Router();
 
@@ -22,6 +23,11 @@ export const httpListener = httpListenerRouter.post("/", (req: express.Request, 
 
     case Actions.LIGHT_COLOR: {
       actionPerformer = new LifxLightColor();
+      break;
+    }
+
+    case Actions.THERMOSTAT_ZONE_THRESHOLD: {
+      actionPerformer = new ThermostatZoneThreshold();
       break;
     }
 
