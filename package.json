@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "rimraf dist && webpack",
+    "docker": "docker-compose up -d",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Simone Di Cicco",

@@ -3,7 +3,7 @@ version: "3"
 services:
   backend:
     build:
-      context: .
+      context: ./
       dockerfile: Dockerfile
     container_name: oh-backend
     ports:
@@ -20,7 +20,7 @@ services:
   panel:
     build:
       context: ../openhome-panel
-      dockerfile: ../openhome-panel/Dockerfile
+      dockerfile: Dockerfile
     container_name: oh-panel
     ports:
       - "80:80"
