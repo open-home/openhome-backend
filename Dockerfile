@@ -11,12 +11,12 @@ RUN npm install
 # Copying openhome-backend source into image.
 COPY . /usr/src/openhome-backend
 
-# Building app
+# Building app.
 RUN npm run build
 WORKDIR /usr/src/openhome-backend/dist
 
 # Exposing ports.
 EXPOSE 8080 3000 3001 3002
 
-# Setting entrypoint container CMD.
+# Setting container entrypoint CMD.
 CMD [ "node", "openhome-service.js"]
