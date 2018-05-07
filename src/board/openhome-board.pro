@@ -1,4 +1,4 @@
-update=2018 April 30, Monday 23:45:57
+update=2018 May 06, Sunday 21:29:32
 version=1
 last_client=kicad
 [pcbnew]
@@ -124,3 +124,13 @@ LibName92=Altera
 LibName93=allegro
 LibName94=actel
 LibName95=ac-dc
+[schematic_editor]
+version=1
+PageLayoutDescrFile=
+PlotDirectoryName=
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=Pcbnew
+SpiceForceRefPrefix=0
+SpiceUseNetNumbers=0
+LabSize=60
