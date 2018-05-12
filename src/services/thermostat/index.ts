@@ -1,9 +1,8 @@
 import { IService } from "../../managers/service.interface";
-import { IThermostatZones } from "../../models/interfaces/thermostat-zones.interface";
-import { getConfig } from "../../utils/utils";
 import { IActionPerformer } from "../../managers/action-performer.interface";
 import { IThermostatZoneThresholdPayload } from "../../models/interfaces/payload/thermostat-zone-threshold-payload.interface";
 import { OpenhomeCloud } from "../openhome-cloud";
+const rp = require('request-promise');
 
 export class ThermostatService implements IService {
 
@@ -24,45 +23,35 @@ export class ThermostatService implements IService {
     this.socket.on('connect', (connected) => {
       connected.emit('message', this.dataset);
     });
-
-    for (let zone in this.zones) {
-
-      const currentZoneTemp: number = this.getZoneTemperature(this.zones[zone]);
-      this.actualizeZone(this.zones[zone], this.checkZoneTemperature(this.zones[zone], currentZoneTemp));
-    }
-  }
-
-  private getZoneTemperature(zone: IThermostatZones): number {
-    return zone.temperature;
-  }
-
-  private checkZoneTemperature(zone: IThermostatZones, currentZoneTemp: number): boolean {
-    return currentZoneTemp <= zone.threshold;
-  }
-
-  private actualizeZone(zone: IThermostatZones, actualize: boolean) {
-
-    if (zone.active != actualize) {
-      // activate
-    }
   }
 }
 
 export class ThermostatZoneThreshold implements IActionPerformer {
 
-  private zone: IThermostatZones;
+  public async performAction(payload: IThermostatZoneThresholdPayload, company?: string) {
 
-  public performAction(payload: IThermostatZoneThresholdPayload, company?: string) {
+    const openhomeCloud = new OpenhomeCloud();
+    const thermostats = await openhomeCloud.getThermostats();
 
-    this.zone = getConfig().temperature.zones[payload.zone];
-    const result = this.setZoneThreshold();
-
-    return { success: result };
+    const thremostat = thermostats[payload.guid];
+    return await this.setZoneThreshold(thremostat.endpoint, payload);
   }
 
-  private setZoneThreshold(): string {
+  private setZoneThreshold(ip, device) {
 
-    // Todo.
-    return 'ok';
+    const form = {
+      action: 'SET_THRESHOLD',
+      payload: {
+        threshold: device.threshold
+      }
+    };
+
+    const options = {
+      method: 'POST',
+      uri: 'http://' + ip + ':8080/httpListener',
+      body: JSON.stringify(form)
+    };
+
+    return rp(options);
   }
 }

@@ -1,5 +1,6 @@
 export interface IThermostatZoneThresholdPayload {
 
-  zone: string;
+  deviceIp: number;
+  guid: string;
   threshold: number;
 }

@@ -5,7 +5,6 @@ exports.openhomeApi = function(payload) {
   }
 
   const strPayload = JSON.stringify(payload.payload);
-  console.log(strPayload, strPayload.length);
 
   const options = {
     host: 'us-central1-home-cloud-services.cloudfunctions.net',
@@ -19,20 +18,27 @@ exports.openhomeApi = function(payload) {
       'content-length': strPayload.length }
   };
 
-  var apiResult = '';
-  var objApiResult;
-  var req = require('http').request(options, function(res)  {
+  return new Promise(
 
-    res.on(
-      'data', function(data) {
-      apiResult += data;
-    });
+    function (resolve, reject) {
 
-    res.on('close', function(data) {
-      objApiResult = JSON.parse(apiResult);
-    });
-  });
+      var apiResult = '';
+      var req = require('http').request(options, function(res)  {
 
-  req.write(strPayload);
-  req.end();
+        res.on('data', function(data) {
+
+            if (data) {
+              apiResult += data;
+            }
+          });
+
+        res.on('close', function(data) {
+          resolve(JSON.parse(apiResult));
+        });
+      });
+
+      req.write(strPayload);
+      req.end();
+    }
+  );
 };

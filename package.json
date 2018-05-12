@@ -15,6 +15,7 @@
     "btoa": "^1.2.1",
     "connect-timeout": "^1.9.0",
     "cors": "^2.8.4",
+    "espruino": "^0.1.6",
     "express": "^4.16.3",
     "grunt": "^1.0.2",
     "grunt-zip": "^0.17.1",

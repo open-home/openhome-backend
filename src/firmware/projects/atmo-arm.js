@@ -7,13 +7,22 @@
 //  Home Automation | http://os.atmo.service
 //  powered by Espruino.
 //
+// Memory locations
+//
+// 1: WiFi SSID;
+// 2: WiFi Password;
+// 3: Thermostat Threshold.
+//
 
-var GUID = '256343ac-a467-92d4-a2ed-fcb72eb63097';
-var WIFI_NAME = ['TIM-19742751', 'NASO', 'ZyXEL_C460'];
-var WIFI_OPTIONS = [
+const GUID = '256343ac-a467-92d4-a2ed-fcb72eb63097';
+const NAME = 'Living Room';
+const WIFI_NAME = ['TIM-19742751', 'NASO', 'yogyfi'];
+const THERMOSTAT_CYCLE = 120 * 1000;
+const DEVICE_TYPE = 0;
+const WIFI_OPTIONS = [
   { password: 'IAao3xzAgSkpQq1PIDotRtGr' },
   { password: 'askTUPONE' },
-  { password: '4nFtmKu9o7xmM' }
+  { password: 'vuttavutta' }
 ];
 
 const atmoCommons = require('atmo-commons');
@@ -21,10 +30,11 @@ const atmoUtils = require('atmo-utils');
 const atmoHTTPServer = require('atmo-httpserver');
 const atmoHTTPClient = require('atmo-httpclient');
 const atmoI2C = require('atmo-i2c');
+const atmoThermostat = require('atmo-thermostat');
 const atmoActions = require('atmo-actions');
 const atmoWatches = require('atmo-watches');
 const wifi = require('EspruinoWiFi');
-var ip = '';
+var DEVICE_IP = '';
 
 var f = new (require("FlashEEPROM"))();
 var isWiFiConnected = false;
@@ -51,25 +61,16 @@ wifi.connect(WIFI_NAME[0], WIFI_OPTIONS[0], function (err) {
   wifi.getIP(function (err, data) {
 
     console.log(data.ip);
-    ip = data.ip;
+    DEVICE_IP = data.ip;
 
     // HTTP Server.
     try {
 
       atmoHTTPServer.initializeHTTPServer();
 
-      const device = {
-        active: 0,
-        guid: GUID,
-        endpoint: data.ip,
-        name: GUID,
-        threshold: 18
-      };
-
-      atmoHTTPClient.openhomeApi({ path: '/deviceSpawn', payload: device });
-
       // Temperature cycle.
-      setInterval(readTemperature, 20000);
+      atmoThermostat.readTemperature();
+      setInterval(atmoThermostat.readTemperature, THERMOSTAT_CYCLE);
     } catch (error) {
       console.log(error);
     }
@@ -81,21 +82,4 @@ try {
   // atmoWatches.watchUserConfig();
 } catch (error){
   console.log(error);
-}
-
-// Temperature.
-function readTemperature() {
-
-  const temp = si7021.readTemperature();
-
-  const device = {
-    active: 0,
-    guid: GUID,
-    endpoint: ip,
-    name: GUID,
-    threshold: 18,
-    temperature: temp
-  };
-
-  atmoHTTPClient.openhomeApi({ path: '/deviceSpawn', payload: device });
 }

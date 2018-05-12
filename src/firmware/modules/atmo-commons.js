@@ -75,5 +75,8 @@ exports.actionsVerifyPatters = {
   ON_OFF_PORT: [
     { key: 'port', type: this.types.STRING },
     { key: 'state', type: this.types.BOOLEAN }
+  ],
+  SET_THRESHOLD: [
+    { key: 'threshold', type: this.types.NUMBER }
   ]
 };

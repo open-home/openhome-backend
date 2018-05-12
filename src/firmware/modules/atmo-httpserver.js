@@ -1,7 +1,8 @@
 const httpServer = require('http');
 
 const actions = {
-  ON_OFF_PORT: 'ON_OFF_PORT'
+  ON_OFF_PORT: 'ON_OFF_PORT',
+  SET_THRESHOLD: 'SET_THRESHOLD'
 };
 
 const urls = {
@@ -45,6 +46,7 @@ function handlePostRequest(req, res, path) {
 function handleActions(res, path, payload) {
 
   var result;
+  var success = false;
 
   switch (path) {
 
@@ -59,14 +61,29 @@ function handleActions(res, path, payload) {
       break;
   }
 
-  res.writeHead(200, { 'Content-Type': 'application/json' });
-  res.end(JSON.stringify(result));
+  if (result instanceof Promise) {
+
+    result.then(function(data){
+
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(data));
+    });
+  } else {
+
+    if (result == atmoCommons.errorCodes.SUCCESS) {
+      success = true;
+    }
+
+    result = { success: success, error: result };
+
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(result));
+  }
 }
 
 function httpListener(payload) {
 
   const actionPayload = payload.payload;
-  var success = false;
   var result = atmoCommons.errorCodes.UNKNOWN_ERROR;
 
   switch (payload.action) {
@@ -75,14 +92,14 @@ function httpListener(payload) {
       result = atmoActions.setOnOffPort(actionPayload);
       break;
 
+    case actions.SET_THRESHOLD: {
+      result = atmoActions.setThreshold(actionPayload);
+      break;
+    }
     default:
       result = atmoCommons.errorCodes.UNKNOWN_ACTION;
       break;
   }
 
-  if (result == atmoCommons.errorCodes.SUCCESS) {
-    success = true;
-  }
-
-  return { success: success, error: result };
+  return result;
 }

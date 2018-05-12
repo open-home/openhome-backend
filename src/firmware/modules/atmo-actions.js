@@ -50,3 +50,13 @@ exports.setOnOffPort = function(payload) {
 
   return atmoCommons.errorCodes.SUCCESS;
 };
+
+exports.setThreshold = function(payload) {
+
+  // Verify command.
+  if (!verifyFormat(payload, atmoCommons.actionsVerifyPatters.SET_THRESHOLD)) {
+    return atmoCommons.errorCodes.BAD_FORMAT;
+  }
+
+  return atmoThermostat.readTemperature(payload.threshold);
+};

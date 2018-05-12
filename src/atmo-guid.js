@@ -10,5 +10,9 @@ function s4() {
 }
 
 var uaz = {};
-console.log(JSON.stringify(uaz).length);
 console.log(guid());
+
+var a = {temperature: 27.8, active: 1};
+var b = {temperature: 30, active: 0, threshold: 23};
+var c = Object.assign(b, a);
+console.log(c);
