@@ -9,15 +9,14 @@
 //
 // Memory locations
 //
-// 1: WiFi SSID;
-// 2: WiFi Password;
-// 3: Thermostat Threshold.
+// 1: WiFi SSID
+// 2: WiFi Password
 //
 
 const GUID = '256343ac-a467-92d4-a2ed-fcb72eb63097';
 const NAME = 'Living Room';
 const WIFI_NAME = ['TIM-19742751', 'NASO', 'yogyfi'];
-const THERMOSTAT_CYCLE = 120 * 1000;
+const THERMOSTAT_CYCLE = 300 * 1000;
 const DEVICE_TYPE = 0;
 const WIFI_OPTIONS = [
   { password: 'IAao3xzAgSkpQq1PIDotRtGr' },
@@ -50,7 +49,7 @@ const si7021 = require('SI7021').connect(I2C1);
 
 pinMode(B0, 'input_pulldown');
 
-wifi.connect(WIFI_NAME[0], WIFI_OPTIONS[0], function (err) {
+wifi.connect(WIFI_NAME[1], WIFI_OPTIONS[1], function (err) {
 
   if (err) {
     console.log('Connection error: ' + err);

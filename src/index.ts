@@ -2,7 +2,7 @@ import { HttpServer } from "./services/http";
 import { DvrService } from "./services/dvr";
 import { LifxLightService } from "./services/lifx";
 import { OpenhomeCloud } from "./services/openhome-cloud";
-import { ThermostatService } from "./services/thermostat";
+import { ThermostatService } from "./services/devices";
 import { setConfig } from "./utils/utils";
 
 const httpServer = new HttpServer(8080);
@@ -24,7 +24,7 @@ async function init() {
   setInterval(dvrService.run.bind(dvrService),2000);
 
   thermostatService.run();
-  setInterval(thermostatService.run.bind(thermostatService), 120000);
+  setInterval(thermostatService.run.bind(thermostatService), 300000);
 }
 
 init();

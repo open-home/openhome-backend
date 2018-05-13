@@ -9,10 +9,8 @@ function s4() {
     .substring(1);
 }
 
-var uaz = {};
+var socket = require('socket.io-client')('http://localhost:3002');
+socket.emit('message', 'world');
+
 console.log(guid());
 
-var a = {temperature: 27.8, active: 1};
-var b = {temperature: 30, active: 0, threshold: 23};
-var c = Object.assign(b, a);
-console.log(c);

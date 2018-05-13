@@ -4,7 +4,8 @@ export const Commons = {
     service: 'https://us-central1-home-cloud-services.cloudfunctions.net',
     endpoints: {
       config: '/config',
-      thermostat: '/thermostat'
+      thermostat: '/thermostat',
+      devices: '/devices'
     }
   },
   strings: {

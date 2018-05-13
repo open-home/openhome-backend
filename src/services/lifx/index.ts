@@ -14,7 +14,7 @@ export class LifxLightService implements IService {
   private lifxClient;
   private socket = require('socket.io')(3000);
   private dataset = [];
-  private isTest = false;
+  private isTest = true;
 
   constructor() {
 

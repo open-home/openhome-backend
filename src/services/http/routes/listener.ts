@@ -5,7 +5,7 @@ import { RequestPayload } from "../../../models/interfaces/payload/request-paylo
 import { IActionPerformer } from "../../../managers/action-performer.interface";
 import { LifxLightColor, LifxLightPower } from "../../lifx";
 import { Actions } from "../../../actions/actions";
-import { ThermostatZoneThreshold } from "../../thermostat";
+import { DeviceIsAlive, ThermostatZoneThreshold } from "../../devices";
 
 let httpListenerRouter = express.Router();
 
@@ -16,20 +16,22 @@ export const httpListener = httpListenerRouter.post("/", (req: express.Request, 
 
   switch (requestPayload.action) {
 
-    case Actions.LIGHT_POWER: {
+    case Actions.LIGHT_POWER:
       actionPerformer = new LifxLightPower();
       break;
-    }
 
-    case Actions.LIGHT_COLOR: {
+    case Actions.LIGHT_COLOR:
       actionPerformer = new LifxLightColor();
       break;
-    }
 
-    case Actions.THERMOSTAT_ZONE_THRESHOLD: {
+    case Actions.THERMOSTAT_ZONE_THRESHOLD:
       actionPerformer = new ThermostatZoneThreshold();
       break;
-    }
+
+    case Actions.DEVICE_IS_ALIVE:
+      actionPerformer = new DeviceIsAlive();
+      break;
+
 
     default:
       // Action not found.

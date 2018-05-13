@@ -20,6 +20,12 @@ export class OpenhomeCloud {
     });
   }
 
+  public getDevices(): any {
+    return this.call(Commons.openhomeCloud.endpoints.thermostat).then((data) => {
+      return JSON.parse(data);
+    });
+  }
+
   private call(endpoint: string, payload?: any) {
 
     const options = {

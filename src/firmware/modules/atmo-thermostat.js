@@ -8,6 +8,7 @@ exports.readTemperature = function(threshold) {
     guid: GUID,
     endpoint: DEVICE_IP,
     name: NAME,
+    offline: 0,
     meta: {
       active: 0,
       temperature: temp,
@@ -33,7 +34,6 @@ exports.getThermostat = function() {
 
 function activate(device) {
 
-  console.log(JSON.stringify(device));
   let active = 0;
   if (device.meta.temperature < device.meta.threshold) {
     active = 1;

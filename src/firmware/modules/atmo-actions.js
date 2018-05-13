@@ -43,12 +43,12 @@ exports.setOnOffPort = function(payload) {
 
   // Verify command.
   if (!verifyFormat(payload, atmoCommons.actionsVerifyPatters.ON_OFF_PORT)) {
-    return atmoCommons.errorCodes.BAD_FORMAT;
+    return { status: false, error: atmoCommons.errorCodes.BAD_FORMAT, data: {} };
   }
 
   digitalWrite(payload.port, payload.state ? 1 : 0);
 
-  return atmoCommons.errorCodes.SUCCESS;
+  return { status: true, error: atmoCommons.errorCodes.SUCCESS, data: {} };
 };
 
 exports.setThreshold = function(payload) {
@@ -59,4 +59,8 @@ exports.setThreshold = function(payload) {
   }
 
   return atmoThermostat.readTemperature(payload.threshold);
+};
+
+exports.deviceIsAlive = function() {
+  return { status: true, error: atmoCommons.errorCodes.SUCCESS, data: GUID };
 };

@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "rimraf dist && webpack",
+    "build-run": "npm run build && node dist/openhome-service.js",
     "docker": "docker-compose up -d",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -28,6 +29,7 @@
     "request-promise": "^4.2.2",
     "rxjs": "^5.5.8",
     "socket.io": "^2.0.4",
+    "socket.io-client": "^2.1.0",
     "ws": "^4.1.0"
   },
   "devDependencies": {

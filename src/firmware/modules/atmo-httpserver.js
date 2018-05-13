@@ -2,7 +2,8 @@ const httpServer = require('http');
 
 const actions = {
   ON_OFF_PORT: 'ON_OFF_PORT',
-  SET_THRESHOLD: 'SET_THRESHOLD'
+  SET_THRESHOLD: 'SET_THRESHOLD',
+  DEVICE_IS_ALIVE: 'DEVICE_IS_ALIVE'
 };
 
 const urls = {
@@ -70,12 +71,6 @@ function handleActions(res, path, payload) {
     });
   } else {
 
-    if (result == atmoCommons.errorCodes.SUCCESS) {
-      success = true;
-    }
-
-    result = { success: success, error: result };
-
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(result));
   }
@@ -92,10 +87,14 @@ function httpListener(payload) {
       result = atmoActions.setOnOffPort(actionPayload);
       break;
 
-    case actions.SET_THRESHOLD: {
+    case actions.SET_THRESHOLD:
       result = atmoActions.setThreshold(actionPayload);
       break;
-    }
+
+    case actions.DEVICE_IS_ALIVE:
+      result = atmoActions.deviceIsAlive();
+      break;
+
     default:
       result = atmoCommons.errorCodes.UNKNOWN_ACTION;
       break;
